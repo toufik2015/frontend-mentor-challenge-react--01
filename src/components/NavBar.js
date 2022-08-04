@@ -4,9 +4,20 @@ import logo from "../images/logo.svg";
 import Avatar from "../images/image-avatar.png";
 import CartIcon from "./CartIcon";
 import CartImage from "../images/image-product-1-thumbnail.jpg";
+import { useState } from "react";
 
 import DeleteIcon from "../images/icon-delete.svg";
-function NavBar() {
+function NavBar(props) {
+  const [cartShown, setCartShown] = useState(false);
+
+  const showCartHandler = () => {
+    setCartShown((state) => !state);
+  };
+
+  const popupClass = cartShown
+    ? classes["popup"]
+    : `${classes["popup"]} ${classes["hidden"]} `;
+
   return (
     <nav>
       <div className="container">
@@ -25,33 +36,44 @@ function NavBar() {
           </div>
           <div className={classes["account"]}>
             <div className={classes["cart"]}>
-              <button className={classes["cart-btn"]}>
-                <span className={classes["badge"]}>3</span>
-                <CartIcon fill="#111111" />
-                <div className={classes["popup"]}>
+              <button onClick={showCartHandler} className={classes["cart-btn"]}>
+                <div className={classes["cart-btn-content"]}>
+                  {props.cartItemsNumber !== 0 && (
+                    <span className={classes["badge"]}>
+                      {props.cartItemsNumber}
+                    </span>
+                  )}
+                  <CartIcon fill="#111111" />
+                </div>
+                <div className={popupClass}>
                   <div className={classes["popup-header"]}>
                     <h3>Cart</h3>
                   </div>
                   <div className={classes["cart-items"]}>
-                    <ul>
-                      <li>
-                        <div className={classes["item-content"]}>
-                          <div className={classes["image-box"]}>
-                            <img src={CartImage} />
+                    {props.cartItemsNumber !== 0 ? (
+                      <ul>
+                        <li>
+                          <div className={classes["item-content"]}>
+                            <div className={classes["image-box"]}>
+                              <img src={CartImage} />
+                            </div>
+                            <p>
+                              Fall limited Edition Sneackers <br />
+                              {`$125.00x${props.cartItemsNumber}`}
+                              <span>{`$${375.0 * props.cartItemsNumber}`}</span>
+                            </p>
+                            <button className={classes["dlt-btn"]}>
+                              <img src={DeleteIcon}></img>
+                            </button>
                           </div>
-                          <p>
-                            Fall limited Edition Sneackers <br /> $125.00x3
-                            <span> $375.00</span>
-                          </p>
-                          <button className={classes["dlt-btn"]}>
-                            <img src={DeleteIcon}></img>
+                          <button className={classes["checkout-btn"]}>
+                            Checkout
                           </button>
-                        </div>
-                        <button className={classes["checkout-btn"]}>
-                          Checkout
-                        </button>
-                      </li>
-                    </ul>
+                        </li>
+                      </ul>
+                    ) : (
+                      <p>There are no items</p>
+                    )}
                   </div>
                 </div>
               </button>

@@ -3,30 +3,76 @@ import classes from "./ProductPage.module.css";
 import MinusIcon from "../images/icon-minus.svg";
 import PlusIcon from "../images/icon-plus.svg";
 import CartIcon from "./CartIcon";
+import { useState } from "react";
 
-function ProductPage() {
+function ProductPage(props) {
+  const [currentThumbnail, setCurrentThumbnail] = useState("1");
+  let previewImgUrl;
+  const clickOnThumbnailHandler = (e) => {
+    e.preventDefault();
+    setCurrentThumbnail(e.target.closest("a").id);
+  };
+  previewImgUrl = "../images/image-product-" + currentThumbnail + ".jpg";
+
   return (
     <main>
       <div className="container">
         <div className={classes["page-content"]}>
           <div className={classes["product-preview"]}>
             <div className={classes["preview"]}>
-              <img src={require("../images/image-product-1.jpg")} />
+              <img
+                src={require("../images/image-product-" +
+                  currentThumbnail +
+                  ".jpg")}
+              />
             </div>
             <div className={classes["thumbnails"]}>
               <a
+                onClick={clickOnThumbnailHandler}
+                id="1"
                 href="#"
-                className={`${classes["thumbnail"]} ${classes["current"]} `}
+                className={
+                  currentThumbnail !== "1"
+                    ? `${classes["thumbnail"]}`
+                    : `${classes["thumbnail"]} ${classes["current"]} `
+                }
               >
                 <img src={require("../images/image-product-1-thumbnail.jpg")} />
               </a>
-              <a href="#" className={classes["thumbnail"]}>
+              <a
+                onClick={clickOnThumbnailHandler}
+                id="2"
+                href="#"
+                className={
+                  currentThumbnail !== "2"
+                    ? `${classes["thumbnail"]}`
+                    : `${classes["thumbnail"]} ${classes["current"]} `
+                }
+              >
                 <img src={require("../images/image-product-2-thumbnail.jpg")} />
               </a>
-              <a href="#" className={classes["thumbnail"]}>
+              <a
+                onClick={clickOnThumbnailHandler}
+                id="3"
+                href="#"
+                className={
+                  currentThumbnail !== "3"
+                    ? `${classes["thumbnail"]}`
+                    : `${classes["thumbnail"]} ${classes["current"]} `
+                }
+              >
                 <img src={require("../images/image-product-3-thumbnail.jpg")} />
               </a>
-              <a href="#" className={classes["thumbnail"]}>
+              <a
+                onClick={clickOnThumbnailHandler}
+                id="4"
+                href="#"
+                className={
+                  currentThumbnail !== "4"
+                    ? `${classes["thumbnail"]}`
+                    : `${classes["thumbnail"]} ${classes["current"]} `
+                }
+              >
                 <img src={require("../images/image-product-4-thumbnail.jpg")} />
               </a>
             </div>
@@ -53,16 +99,27 @@ function ProductPage() {
 
               <div className={classes["cart-actions"]}>
                 <div className={classes["items-number"]}>
-                  <button className={classes["minus-btn"]}>
+                  <button
+                    onClick={props.addItems}
+                    id="minus"
+                    className={classes["minus-btn"]}
+                  >
                     <img src={MinusIcon} />
                   </button>
-                  <span>3</span>
-                  <button className={classes["minus-btn"]}>
+                  <span> {props.itemsNumber} </span>
+                  <button
+                    onClick={props.addItems}
+                    id="plus"
+                    className={classes["minus-btn"]}
+                  >
                     <img src={PlusIcon} />
                   </button>
                 </div>
 
-                <button className={classes["addtocart-btn"]}>
+                <button
+                  onClick={props.addToCart}
+                  className={classes["addtocart-btn"]}
+                >
                   <CartIcon fill="#ffffff" /> <span>Add to cart</span>
                 </button>
               </div>

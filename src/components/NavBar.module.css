@@ -47,7 +47,7 @@
   background-color: #fff;
   border: none;
 }
-.cart-btn img:hover {
+.cart-btn-content:hover {
   cursor: pointer;
 }
 
@@ -88,6 +88,10 @@
   width: 35rem;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(85, 85, 85, 0.326);
+}
+
+.hidden {
+  visibility: hidden;
 }
 
 .popup-header {
